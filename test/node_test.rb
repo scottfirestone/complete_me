@@ -12,6 +12,10 @@ class NodeTest < Minitest::Test
     assert @node
   end
 
+  def test_node_value_defaults_to_nil
+    assert_equal nil, @node.value
+  end
+
   def test_node_link_children_property_exists_with_default_empty_hash
     assert_equal ({}), @node.children
   end

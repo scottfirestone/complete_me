@@ -9,11 +9,6 @@ class Dictionary
     @word_count = 0
   end
 
-  # def word_count
-  #   @word_count = @content.size
-  #   @word_count
-  # end
-
   def add(word)
     current = @root
     current.value = ""
@@ -30,7 +25,23 @@ class Dictionary
     @word_count+=1
   end
 
-  def suggest(substring)
+  def included?(word, current_node=@root)
+    word.chars.each do |letter|
+      if current_node.children[letter] == nil
+        return false
+      else
+        current_node = current_node.children[letter]
+      end
+    end
+    current_node.is_word
+  end
+
+
+  def suggest(substring, current_node=@root, suggestions = [])
+    if current_node.children.has_key?(substring.slice(0))
+      current_node = current_node.children[word.slice!(0)]
+      current.suggest(word, current_node, suggestions)
+    end
   end
 
 end
