@@ -31,20 +31,9 @@ class CompleteMeTest<Minitest::Test
 
   def test_raise_argument_if_word_in_dictionary
     @completion.insert("cat")
-    assert_equal "Word is already in dictionary!", @completion.insert("cat")
+    assert_equal "Your word is already in the dictionary!", @completion.insert("cat")
   end
-  #
-  # def test_new_node_created
-  #
-  # end
-  #
-  # def test_node_properties
-  # end
-  # #
-  #
-  # def test_dictionary_to_tree
-  #   skip
-  # end
-  #
+
+  
 
 end
