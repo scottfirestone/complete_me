@@ -14,14 +14,15 @@ class CompleteMe
     else
       "Your word is already in the dictionary!"
     end
-
-    def count
-
-    end
-
   end
 
   def check_input_vs_dictionary(input)
     @dictionary.included?(input.downcase)
+  end
+
+  def suggest
+  end
+
+  def select
   end
 end
