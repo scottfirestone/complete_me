@@ -47,9 +47,14 @@ class Dictionary
     end
   end
 
-  # def find_words(node, suggested_array=[])
-  #   if node.children
-  # end
+  def find_words(node, suggested_array=[])
+    if node.children.value == nil
+      return suggested_array
+    elsif node.children.is_word?
+      suggested_array << node.value
+    else
+      node = node.children
+  end
 
   def suggest(substring)
     target_node = find_node(substring)
