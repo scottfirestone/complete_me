@@ -20,7 +20,8 @@ class CompleteMe
     @dictionary.included?(input.downcase)
   end
 
-  def suggest
+  def suggest(substring)
+    @dictionary.suggestions(substring)
   end
 
   def select

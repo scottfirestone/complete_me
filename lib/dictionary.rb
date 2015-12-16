@@ -27,7 +27,7 @@ class Dictionary
 
   def included?(word, current_node=@root)
     word.chars.each do |letter|
-      if current_node.children[letter] == nil
+      if current_node.children[letter].nil?
         return false
       else
         current_node = current_node.children[letter]
@@ -36,14 +36,37 @@ class Dictionary
     current_node.is_word
   end
 
-
-  def suggest(substring, current_node=@root, suggestions = [])
-    if current_node.children.has_key?(substring.slice(0))
-      current_node = current_node.children[word.slice!(0)]
-      current.suggest(word, current_node, suggestions)
+  def find_node(substring = substring.chars, node = @root)
+    if substring.size == 0
+      return node
+    else
+      if node.children.has_key?(substring[0])
+        node = node.children[substring.slice!(0)]
+        find_node(substring, node)
+      end
     end
   end
 
+  # def find_words(node, suggested_array=[])
+  #   if node.children
+  # end
+
+  def suggest(substring)
+    target_node = find_node(substring)
+    find_words(target_node)
+  end
+  # def suggestions(substring=substring.chars, substring_slice = nil, next_node=@root, suggestions = [])
+  #   if next_node.children == nil
+  #     return
+  #   elsif next_node.children.has_key?(substring[0])
+  #     next_node = next_node.children[substring.slice!(0)]
+  #     suggestions(substring(0), next_node, suggestions)
+  #   end
+  # end
+
 end
 
+if __FILE__ == $0
+  trie = Dictionary.new
 binding.pry
+end
