@@ -1,4 +1,5 @@
-require 'dictionary'
+require_relative 'dictionary'
+require 'pry'
 
 class CompleteMe
   attr_reader :dictionary
@@ -7,8 +8,21 @@ class CompleteMe
     @dictionary = Dictionary.new
   end
 
-  def insert(item)
-    @dictionary.content.push(item)
+  def insert(word)
+    if check_input_vs_dictionary(word) == false
+      @dictionary.add(word)
+    else
+      "Word is already in dictionary!"
+    end
+
+    def count
+      
+    end
+
   end
 
+  # def check_input_vs_dictionary(input)
+  #   input = input.downcase
+  #   @dictionary.content.include?(input)
+  # end
 end
