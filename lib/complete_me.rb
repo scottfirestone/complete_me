@@ -36,6 +36,7 @@ class CompleteMe
   end
 
   def select(substring, selection)
+    @dictionary.select(substring, selection)
   end
 end
 

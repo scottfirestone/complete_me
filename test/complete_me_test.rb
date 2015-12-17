@@ -34,6 +34,21 @@ class CompleteMeTest<Minitest::Test
     assert_equal "Your word is already in the dictionary!", @completion.insert("cat")
   end
 
-  
+  def test_suggest_returns_one_and_only_valid_value
+    @completion.insert("cat")
+    assert_equal ["cat"], @completion.suggest("ca")
+  end
 
+  def test_suggest_returns_two_valid_values
+    @completion.insert("cat")
+    @completion.insert("category")
+    assert_equal ["category", "cat"], @completion.suggest("ca")
+  end
+
+  def test_suggest_returns_two_valid_values_with_three_words_in_dictionary
+    @completion.insert("cat")
+    @completion.insert("category")
+    @completion.insert("dog")
+    assert_equal ["category", "cat"], @completion.suggest("ca")
+  end
 end

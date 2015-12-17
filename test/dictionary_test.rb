@@ -33,7 +33,6 @@ class DictionaryTest < Minitest::Test
     @dictionary.add("pizza")
     assert @dictionary.included?("pizza")
   end
-  # def test_add_two
 
   def test_dictionary_word_count_returns_0_by_default
     assert_equal 0, @dictionary.word_count
