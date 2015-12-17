@@ -50,4 +50,21 @@ class DictionaryTest < Minitest::Test
     assert_equal 2, @dictionary.word_count
   end
 
+  def test_suggestion_array_returns_four_words
+    @dictionary.add("pizza")
+    @dictionary.add("pie")
+    @dictionary.add("pizzaria")
+    @dictionary.add("pizzarias")
+    assert_equal ["pie", "pizzarias", "pizzaria", "pizza"], @dictionary.suggestions("pi")
+  end
+
+  def test_select_method_increases_selected_word_weight_by_1
+    @dictionary.add("pizza")
+    @dictionary.add("pie")
+    @dictionary.add("pizzaria")
+    @dictionary.add("pizzarias")
+    @dictionary.select("pi", "pizzaria")
+    assert_equal ["pizzaria", "pizzarias", "pie", "pizza"], @dictionary.suggestions("pi")
+  end
+
 end

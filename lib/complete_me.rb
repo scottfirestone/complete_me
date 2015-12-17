@@ -16,6 +16,10 @@ class CompleteMe
     end
   end
 
+  def count
+    @dictionary.word_count
+  end
+
   def check_input_vs_dictionary(input)
     @dictionary.included?(input.downcase)
   end
@@ -31,8 +35,8 @@ class CompleteMe
     end
   end
 
-  def select
+  def select(substring, selection)
   end
 end
 
-binding.pry
+# binding.pry

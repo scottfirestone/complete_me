@@ -47,32 +47,32 @@ class Dictionary
     end
   end
 
-  def find_words(node, suggestion_array = [])
+  def find_words(node, suggestion_node_array = [])
+    suggestion_node_array << node if node.is_word
     node.children.each_value do |node|
       if node.is_word
-        suggestion_array <<  node.value
+        suggestion_node_array <<  node
       end
-      find_words(node, suggestion_array)
+      find_words(node, suggestion_node_array)
     end
-    suggestion_array
+    suggestion_node_array.uniq
   end
 
   def suggestions(substring)
     target_node = find_node(substring)
-    find_words(target_node)
+    suggestion_node_array = find_words(target_node)
+    sorted_node_array = suggestion_node_array.sort_by{ |node| node.weight}.reverse
+    sorted_node_array.map {|node| node.value}
   end
-  # def suggestions(substring=substring.chars, substring_slice = nil, next_node=@root, suggestions = [])
-  #   if next_node.children == nil
-  #     return
-  #   elsif next_node.children.has_key?(substring[0])
-  #     next_node = next_node.children[substring.slice!(0)]
-  #     suggestions(substring(0), next_node, suggestions)
-  #   end
-  # end
+
+  def select(substring, selection)
+    found_node = find_node(selection)
+    found_node.weight += 1
+  end
 
 end
 
 if __FILE__ == $0
   trie = Dictionary.new
-binding.pry
+  trie.add("poop")
 end
