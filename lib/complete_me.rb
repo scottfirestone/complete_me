@@ -24,6 +24,15 @@ class CompleteMe
     @dictionary.suggestions(substring)
   end
 
+  def populate(dictionary)
+    new_words_array = dictionary.split(/\n/)
+    new_words_array.each do |word|
+      insert(word)
+    end
+  end
+
   def select
   end
 end
+
+binding.pry

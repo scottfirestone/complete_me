@@ -57,7 +57,7 @@ class Dictionary
     suggestion_array
   end
 
-  def suggest(substring)
+  def suggestions(substring)
     target_node = find_node(substring)
     find_words(target_node)
   end
