@@ -1,4 +1,3 @@
-require 'pry'
 require_relative 'node'
 
 class Dictionary
@@ -69,10 +68,4 @@ class Dictionary
     found_node = find_node(selection)
     found_node.weight += 1
   end
-
-end
-
-if __FILE__ == $0
-  trie = Dictionary.new
-  trie.add("poop")
 end

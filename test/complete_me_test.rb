@@ -51,4 +51,25 @@ class CompleteMeTest<Minitest::Test
     @completion.insert("dog")
     assert_equal ["category", "cat"], @completion.suggest("ca")
   end
+
+  def test_dictionary_word_count_accurate
+    @completion.insert("cat")
+    @completion.insert("category")
+    @completion.insert("dog")
+    assert_equal 3, @completion.count
+  end
+
+  def test_select_method_changes_suggeston_order
+    @completion.insert("category")
+    @completion.insert("cat")
+    assert_equal ["category", "cat"], @completion.suggest("ca")
+    @completion.select("ca", "cat")
+    assert_equal ["cat", "category"], @completion.suggest("ca")
+  end
+
+  def test_populate_with_dictionary_word_count
+    skip
+    @completion.populate(File.read("/usr/share/dict/words"))
+    assert_equal 235886, @completion.count
+  end
 end

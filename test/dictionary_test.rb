@@ -28,7 +28,7 @@ class DictionaryTest < Minitest::Test
     @dictionary.add("pizza")
     assert_equal "pizza", @dictionary.root.children["p"].children["i"].children["z"].children["z"].children["a"].value
   end
-
+  
   def test_included_function_returns_true
     @dictionary.add("pizza")
     assert @dictionary.included?("pizza")
@@ -64,6 +64,9 @@ class DictionaryTest < Minitest::Test
     @dictionary.add("pizzarias")
     @dictionary.select("pi", "pizzaria")
     assert_equal ["pizzaria", "pizzarias", "pie", "pizza"], @dictionary.suggestions("pi")
+  end
+
+  def test_delete_deletes_word
   end
 
 end

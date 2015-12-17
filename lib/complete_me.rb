@@ -1,8 +1,7 @@
 require_relative 'dictionary'
-require 'pry'
 
 class CompleteMe
-  attr_reader :dictionary
+  attr_reader :dictionary, :count
 
   def initialize
     @dictionary = Dictionary.new
@@ -12,7 +11,7 @@ class CompleteMe
     if check_input_vs_dictionary(word) == false
       @dictionary.add(word)
     else
-      "Your word is already in the dictionary!"
+      p "Your word is already in the dictionary!"
     end
   end
 
@@ -21,7 +20,7 @@ class CompleteMe
   end
 
   def check_input_vs_dictionary(input)
-    @dictionary.included?(input.downcase)
+    @dictionary.included?(input)
   end
 
   def suggest(substring)
@@ -39,5 +38,3 @@ class CompleteMe
     @dictionary.select(substring, selection)
   end
 end
-
-# binding.pry
