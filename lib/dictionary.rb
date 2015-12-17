@@ -47,13 +47,14 @@ class Dictionary
     end
   end
 
-  def find_words(node, suggested_array=[])
-    if node.children.value == nil
-      return suggested_array
-    elsif node.children.is_word?
-      suggested_array << node.value
-    else
-      node = node.children
+  def find_words(node, suggestion_array = [])
+    node.children.each_value do |node|
+      if node.is_word
+        suggestion_array <<  node.value
+      end
+      find_words(node, suggestion_array)
+    end
+    suggestion_array
   end
 
   def suggest(substring)
