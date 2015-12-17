@@ -35,33 +35,27 @@ class Dictionary
     current_node.is_word
   end
 
-  def find_node(substring = substring.chars, node = @root)
+  def find_node(substring, node = @root)
     if substring.size == 0
       return node
     else
       if node.children.has_key?(substring[0])
-        node = node.children[substring.slice!(0)]
-        find_node(substring, node)
+        node = node.children[substring[0]]
+        find_node(substring[1..-1], node)
       end
     end
   end
 
-  def find_words(node, suggestion_node_array = [])
-    suggestion_node_array << node if node.is_word
-    node.children.each_value do |node|
-      if node.is_word
-        suggestion_node_array <<  node
-      end
-      find_words(node, suggestion_node_array)
-    end
-    suggestion_node_array.uniq
+  def find_words(node)
+    current = node.is_word ? [node] : []
+    current + node.children.values.flat_map { |child| find_words(child) }
   end
 
   def suggestions(substring)
     target_node = find_node(substring)
-    suggestion_node_array = find_words(target_node)
-    sorted_node_array = suggestion_node_array.sort_by{ |node| node.weight}.reverse
-    sorted_node_array.map {|node| node.value}
+    find_words(target_node).
+      sort_by(&:weight).
+      reverse.map(&:value)
   end
 
   def select(substring, selection)

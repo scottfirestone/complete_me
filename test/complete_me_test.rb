@@ -2,7 +2,6 @@ require 'test_helper'
 require 'complete_me'
 require 'minitest'
 
-
 class CompleteMeTest<Minitest::Test
 
   def setup
