@@ -61,7 +61,12 @@ class Dictionary
     target_node = find_node(substring)
     suggestion_node_array = find_words(target_node)
     sorted_node_array = suggestion_node_array.sort_by{ |node| node.weight}.reverse
-    sorted_node_array.map {|node| node.value}
+    sorted_node_method(suggeston_node_array)
+  end
+
+  def sorted_node_method(suggestion_node_array)
+    suggestion_node_array.sort_by{ |node| node.weight}.
+    reverse.map {|node| node.value}
   end
 
   def select(substring, selection)
