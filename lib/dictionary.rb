@@ -2,10 +2,12 @@ require_relative 'node'
 
 class Dictionary
   attr_reader :word_count, :root
+  attr_accessor :selections
 
   def initialize
     @root = Node.new
     @word_count = 0
+    @selections = {}
   end
 
   def add(word)
@@ -35,7 +37,7 @@ class Dictionary
     current_node.is_word
   end
 
-  def find_node(substring = substring.chars, node = @root)
+  def find_node(substring, node = @root)
     if substring.size == 0
       return node
     else
@@ -58,19 +60,37 @@ class Dictionary
   end
 
   def suggestions(substring)
-    target_node = find_node(substring)
-    suggestion_node_array = find_words(target_node)
-    sorted_node_array = suggestion_node_array.sort_by{ |node| node.weight}.reverse
-    sorted_node_method(suggeston_node_array)
+    new_string = substring.dup
+    suggestion_node_array = find_words(find_node(substring))
+    suggested = sorted_node_method(suggestion_node_array)
+    if selections[new_string]
+      suggested = sort_suggestions(suggested, new_string)
+    end
+    suggested
+  end
+
+  def sort_suggestions(suggested, substring)
+    add_to_hash = suggested.reject do |word|
+      selections[substring].has_key?(word)
+    end
+    add_to_hash.each do |word|
+      selections[substring][word] = 0
+    end
+    suggested.sort_by do |word|
+      -selections[substring][word]
+    end
   end
 
   def sorted_node_method(suggestion_node_array)
-    suggestion_node_array.sort_by{ |node| node.weight}.
-    reverse.map {|node| node.value}
+    suggestion_node_array.reverse.map {|node| node.value}
   end
 
-  def select(substring, selection)
-    found_node = find_node(selection)
-    found_node.weight += 1
+  def choose(substring, selection)
+    if !selections.has_key?(substring)
+      selections[substring] = {selection => 1}
+    else
+      selections[substring][selection] += 1
+    end
+
   end
 end

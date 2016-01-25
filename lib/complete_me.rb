@@ -9,22 +9,22 @@ class CompleteMe
 
   def insert(word)
     if check_input_vs_dictionary(word) == false
-      @dictionary.add(word)
+      dictionary.add(word)
     else
-      p "Your word is already in the dictionary!"
+      "#{word.capitalize} is already in the dictionary!"
     end
   end
 
   def count
-    @dictionary.word_count
+    dictionary.word_count
   end
 
   def check_input_vs_dictionary(input)
-    @dictionary.included?(input)
+    dictionary.included?(input)
   end
 
   def suggest(substring)
-    @dictionary.suggestions(substring)
+    dictionary.suggestions(substring)
   end
 
   def populate(dictionary)
@@ -35,6 +35,6 @@ class CompleteMe
   end
 
   def select(substring, selection)
-    @dictionary.select(substring, selection)
+    dictionary.choose(substring, selection)
   end
 end
