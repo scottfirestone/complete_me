@@ -1,8 +1,7 @@
 require_relative 'node'
 
 class Dictionary
-  attr_reader :word_count, :root
-  attr_accessor :selections
+  attr_reader :word_count, :root, :selections
 
   def initialize
     @root = Node.new
@@ -37,6 +36,26 @@ class Dictionary
     current_node.is_word
   end
 
+  def suggestions(substring)
+    substring_copy = substring.dup
+    found_word_nodes = find_word_nodes(find_node(substring))
+    suggested_words = node_words(found_word_nodes)
+    if selections[substring_copy]
+      suggested_words = sort_suggestions(suggested_words, substring_copy)
+    end
+    suggested_words
+  end
+
+  def choose(substring, selection)
+    if !selections.has_key?(substring)
+      selections[substring] = {selection => 1}
+    else
+      selections[substring][selection] += 1
+    end
+  end
+
+  private
+
   def find_node(substring, node = @root)
     if substring.size == 0
       return node
@@ -48,49 +67,30 @@ class Dictionary
     end
   end
 
-  def find_words(node, suggestion_node_array = [])
+  def find_word_nodes(node, suggestion_node_array = [])
     suggestion_node_array << node if node.is_word
     node.children.each_value do |node|
       if node.is_word
         suggestion_node_array <<  node
       end
-      find_words(node, suggestion_node_array)
+      find_word_nodes(node, suggestion_node_array)
     end
     suggestion_node_array.uniq
   end
 
-  def suggestions(substring)
-    new_string = substring.dup
-    suggestion_node_array = find_words(find_node(substring))
-    suggested = sorted_node_method(suggestion_node_array)
-    if selections[new_string]
-      suggested = sort_suggestions(suggested, new_string)
-    end
-    suggested
+  def node_words(suggestion_node_array)
+    suggestion_node_array.reverse.map {|node| node.value}
   end
 
   def sort_suggestions(suggested, substring)
-    add_to_hash = suggested.reject do |word|
-      selections[substring].has_key?(word)
-    end
-    add_to_hash.each do |word|
-      selections[substring][word] = 0
-    end
+    add_zero_weights_to_non_selections(suggested, substring)
     suggested.sort_by do |word|
       -selections[substring][word]
     end
   end
 
-  def sorted_node_method(suggestion_node_array)
-    suggestion_node_array.reverse.map {|node| node.value}
-  end
-
-  def choose(substring, selection)
-    if !selections.has_key?(substring)
-      selections[substring] = {selection => 1}
-    else
-      selections[substring][selection] += 1
-    end
-
+  def add_zero_weights_to_non_selections(suggested, substring)
+    non_selections = suggested.reject { |word| selections[substring].has_key?(word) }
+    non_selections.each { |word| selections[substring][word] = 0 }
   end
 end

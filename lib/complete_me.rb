@@ -27,11 +27,8 @@ class CompleteMe
     dictionary.suggestions(substring)
   end
 
-  def populate(dictionary)
-    new_words_array = dictionary.split(/\n/)
-    new_words_array.each do |word|
-      insert(word)
-    end
+  def populate(word_library)
+    word_library.split(/\n/).each { |word| insert(word) }
   end
 
   def select(substring, selection)
